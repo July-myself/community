@@ -12,3 +12,7 @@ https://elasticsearch.cn/explore
 
 ## 工具
 https://git-scm.com/download
+
+前端框架：https://v3.bootcss.com/components/
+
+引入GitHub登录方式：https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/

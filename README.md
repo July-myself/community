@@ -2,17 +2,20 @@
 学习SpringBoot的第一个实战项目
 
 ## 资料
-https://spring.io/guides
+[Spring 文档](https://spring.io/guides)
 
-https://spring.io/guides/gs/serving-web-content/
+[Spring Web](https://spring.io/guides/gs/serving-web-content/)
 
-https://elasticsearch.cn/explore
+[es社区](https://elasticsearch.cn/explore)
 
-怎么在git中使用SSH key：https://blog.csdn.net/weixin_42105893/article/details/104189330
+[怎么在git中使用SSH key](https://blog.csdn.net/weixin_42105893/article/details/104189330)
+
+[引入GitHub登录方式-GitHub OAuth 文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
 
 ## 工具
-https://git-scm.com/download
+[Git工具](https://git-scm.com/download)
 
-前端框架：https://v3.bootcss.com/components/
+[前端框架-Bootstrap](https://v3.bootcss.com/components/)
 
-引入GitHub登录方式：https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/
+[Visual Paradigm](https://www.visual-paradigm.com)
+

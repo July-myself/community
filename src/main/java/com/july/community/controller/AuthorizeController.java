@@ -2,6 +2,8 @@ package com.july.community.controller;
 
 import com.july.community.dto.AccessTokenDTO;
 import com.july.community.dto.GithubUser;
+import com.july.community.mapper.UserMapper;
+import com.july.community.model.User;
 import com.july.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * 登录后回调
@@ -27,6 +30,9 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name = "state") String state,
@@ -38,11 +44,14 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);//进行doPost请求，获取access_token
-        GithubUser user = gitHubProvider.getUser(accessToken);//使用accesstok获得user信息
+        GithubUser githubUser = gitHubProvider.getUser(accessToken);//使用accesstok获得user信息
         //登录成功后的操作
-        if(user != null){
+        if(githubUser != null){
+            //存入数据库
+            User user = new User(githubUser.getName(),String.valueOf(githubUser.getId()), UUID.randomUUID().toString(),System.currentTimeMillis(),System.currentTimeMillis());
+            userMapper.insert(user);
             //写cookie和session
-            request.getSession().setAttribute("user",user); //把user信息作为一个属性写入session中
+            request.getSession().setAttribute("user",githubUser); //把user信息作为一个属性写入session中
             return "redirect:/"; //重定向，跳转到首页(填写的是路径)
         }else{
             //登录失败，重新登录

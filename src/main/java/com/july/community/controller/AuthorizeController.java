@@ -51,7 +51,7 @@ public class AuthorizeController {
         if(githubUser != null){
             //存入数据库
             String token = UUID.randomUUID().toString();
-            User user = new User(githubUser.getName(),String.valueOf(githubUser.getId()), token,System.currentTimeMillis(),System.currentTimeMillis());
+            User user = new User(githubUser.getName(),String.valueOf(githubUser.getId()), token,System.currentTimeMillis(),System.currentTimeMillis(),githubUser.getAvatarUrl());
             userMapper.insert(user);
             //写cookie,(因存入数据库，无需写入session了)
             response.addCookie(new Cookie("token",token));

@@ -7,15 +7,18 @@ public class User{
     private String token;
     private Long timeCreate;
     private Long timeModified;
+    private String avatarUrl;
 
     public User() {
     }
-    public User(String name, String accountId, String token, Long timeCreate, Long timeModified) {
+
+    public User( String name, String accountId, String token, Long timeCreate, Long timeModified, String avatarUrl) {
         this.name = name;
         this.accountId = accountId;
         this.token = token;
         this.timeCreate = timeCreate;
         this.timeModified = timeModified;
+        this.avatarUrl = avatarUrl;
     }
 
     public Integer getId() {

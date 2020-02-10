@@ -21,6 +21,8 @@
 
 [Flyway Migration管理数据库](https://flywaydb.org/getstarted/firststeps/maven)
 
+[lombok:自动生成getter&setter等](https://www.projectlombok.org)
+
 ## 脚本
 ```sql
 create table tbl_user

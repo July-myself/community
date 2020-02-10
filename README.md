@@ -19,6 +19,8 @@
 
 [Visual Paradigm](https://www.visual-paradigm.com)
 
+Flyway Migration管理数据库
+
 ## 脚本
 ```sql
 create table tbl_user

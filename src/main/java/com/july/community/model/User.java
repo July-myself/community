@@ -8,7 +8,9 @@ public class User{
     private Long timeCreate;
     private Long timeModified;
 
-    public User( String name, String accountId, String token, Long timeCreate, Long timeModified) {
+    public User() {
+    }
+    public User(String name, String accountId, String token, Long timeCreate, Long timeModified) {
         this.name = name;
         this.accountId = accountId;
         this.token = token;
@@ -62,5 +64,17 @@ public class User{
 
     public void setTimeModified(Long timeModified) {
         this.timeModified = timeModified;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", accountId='" + accountId + '\'' +
+                ", token='" + token + '\'' +
+                ", timeCreate=" + timeCreate +
+                ", timeModified=" + timeModified +
+                '}';
     }
 }

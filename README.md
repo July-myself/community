@@ -19,7 +19,7 @@
 
 [Visual Paradigm](https://www.visual-paradigm.com)
 
-Flyway Migration管理数据库
+[Flyway Migration管理数据库](https://flywaydb.org/getstarted/firststeps/maven)
 
 ## 脚本
 ```sql
@@ -34,5 +34,9 @@ create table tbl_user
     time_modified bigint       
 );
 
+```
+
+```bash
+mvn flyway:migrate
 ```
 

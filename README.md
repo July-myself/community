@@ -12,6 +12,8 @@
 
 [引入GitHub登录方式-GitHub OAuth 文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
 
+[Thymeleaf](https://www.thymeleaf.org/doc/tutprials/3.0/usingthymeleaf.html#setting-attribute-values)
+
 ## 工具
 [Git工具](https://git-scm.com/download)
 

@@ -1,6 +1,6 @@
 package com.july.community.controller;
 
-import com.july.community.mapper.PublishMapper;
+import com.july.community.mapper.QuestionMapper;
 import com.july.community.model.Question;
 import com.july.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PublishController {
 
     @Autowired
-    private PublishMapper publishMapper;
+    private QuestionMapper questionMapper;
 
     @GetMapping("/publish")
     public String publish(){
@@ -48,7 +47,7 @@ public class PublishController {
             question.setCreator(user.getId());
             question.setTimeCreate(System.currentTimeMillis());
             question.setTimeModified(System.currentTimeMillis());
-            publishMapper.create(question);//插入数据库
+            questionMapper.create(question);//插入数据库
             return "redirect:/"; //跳转回首页
         } else {
             //未获取到用户信息，提示未登录

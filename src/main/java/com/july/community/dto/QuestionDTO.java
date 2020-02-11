@@ -1,9 +1,10 @@
-package com.july.community.model;
+package com.july.community.dto;
 
+import com.july.community.model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -14,5 +15,6 @@ public class Question {
     private Integer viewCount;
     private Integer likeCount;
     private Integer commentCount;
+    private User user;
 
 }

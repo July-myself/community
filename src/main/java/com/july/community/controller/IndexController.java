@@ -1,5 +1,6 @@
 package com.july.community.controller;
 
+import com.july.community.dto.PaginationDTO;
 import com.july.community.dto.QuestionDTO;
 import com.july.community.mapper.UserMapper;
 import com.july.community.model.Question;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1") Integer page, //分页参数：第几页
+                        @RequestParam(name = "size",defaultValue = "2") Integer size //分页参数：每页多少条数据
+    ){
         //检验登录状态
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0){
@@ -44,8 +49,8 @@ public class IndexController {
         }
 
         //显示问题列表
-        List<QuestionDTO> questionList = questionService.getList();
-        model.addAttribute("questions",questionList);
+        PaginationDTO pagination = questionService.getList(page,size);
+        model.addAttribute("pagination",pagination);
 
 
         return "index";

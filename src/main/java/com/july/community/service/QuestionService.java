@@ -1,5 +1,6 @@
 package com.july.community.service;
 
+import com.july.community.dto.PaginationDTO;
 import com.july.community.dto.QuestionDTO;
 import com.july.community.mapper.QuestionMapper;
 import com.july.community.mapper.UserMapper;
@@ -21,9 +22,17 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<QuestionDTO> getList() {
+    public PaginationDTO getList(Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagination(totalCount,page,size);
+        Integer totalPage = paginationDTO.getTotalPage();
+        //限定页码范围
+        if (page < 1){ page = 1;}
+        if(page > totalPage){ page = totalPage;}
         //获取question所有对象
-        List<Question> questions = questionMapper.getList(); //该list存从数据库中查到的question对象
+        Integer offset = size * (page-1);
+        List<Question> questions = questionMapper.getList(offset,size); //该list存从数据库中查到的question对象
         List<QuestionDTO> questionDTOList = new ArrayList<>(); //该list存要返回的questionDTO对象
         //循环questions,获取user
         for (Question question : questions) {
@@ -34,6 +43,9 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO); //加入要返回的questionDYO列表中
         }
-        return questionDTOList;
+        paginationDTO.setQuestions(questionDTOList);
+
+
+        return paginationDTO;
     }
 }

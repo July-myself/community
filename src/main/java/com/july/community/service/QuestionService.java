@@ -85,4 +85,17 @@ public class QuestionService {
         questionDTO.setUser(user);
         return questionDTO;
     }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId() == null){
+            //插入
+            question.setTimeCreate(System.currentTimeMillis());
+            question.setTimeModified(System.currentTimeMillis());
+            questionMapper.create(question);
+        }else{
+            //更新
+            question.setTimeModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+    }
 }

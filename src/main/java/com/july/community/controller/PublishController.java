@@ -1,12 +1,15 @@
 package com.july.community.controller;
 
+import com.july.community.dto.QuestionDTO;
 import com.july.community.mapper.QuestionMapper;
 import com.july.community.model.Question;
 import com.july.community.model.User;
+import com.july.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
 
     @GetMapping("/publish")
     public String publish(){
@@ -28,6 +31,7 @@ public class PublishController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
+            @RequestParam("id") Integer id,
             HttpServletRequest request,
             Model model
     ){
@@ -45,14 +49,25 @@ public class PublishController {
             question.setDescription(description);
             question.setTag(tag);
             question.setCreator(user.getId());
-            question.setTimeCreate(System.currentTimeMillis());
-            question.setTimeModified(System.currentTimeMillis());
-            questionMapper.create(question);//插入数据库
+            question.setId(id);
+            //进行插入或更新的操作
+            questionService.createOrUpdate(question);
             return "redirect:/"; //跳转回首页
         } else {
             //未获取到用户信息，提示未登录
             model.addAttribute("error","用户未登录");
             return "publish";
         }
+    }
+
+    @GetMapping("publish/{id}")
+    public String edit(@PathVariable(name = "id") Integer id,
+                       Model model){
+        QuestionDTO question = questionService.getListById(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id",question.getId());
+        return "publish";
     }
 }

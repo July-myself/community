@@ -1,10 +1,7 @@
 package com.july.community.mapper;
 
 import com.july.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -28,4 +25,7 @@ public interface QuestionMapper {
 
     @Select("select * from tbl_question where id = #{id}")
     Question getListById(@Param("id") Integer id);
+
+    @Update("update tbl_question set title = #{title},description = #{description},time_modified = #{timeModified},tag = #{tag} where id = #{id}")
+    void update(Question question);
 }

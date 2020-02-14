@@ -22,7 +22,7 @@
             <!-- 标签和发起人等信息 -->
             <span class="text-tag"><span th:text="${question.tag}"></span></span>
             <span class="text-desc">作者：<span th:text="${question.user.name}"></span> | 评论数：<span th:text="${question.commentCount}"></span> * 阅读数：<span
-                    th:text="${question.viewCount}"></span> | 发布时间： <span th:text="${#dates.format(question.timeModified,'yyyy-MM-dd')}"></span></span>
+                    th:text="${question.viewCount}"></span> | 最近更新时间： <span th:text="${#dates.format(question.timeModified,'yyyy-MM-dd')}"></span></span>
             <hr>
             <!--正文部分-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>

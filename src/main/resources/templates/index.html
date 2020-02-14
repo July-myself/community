@@ -34,7 +34,7 @@
                     <span class="text-tag"><span th:text="${question.tag}"></span></span>
                     <span th:text="${question.user.name}"></span>
                     <span class="text-desc"><span th:text="${question.commentCount}"></span>个回复 * <span
-                            th:text="${question.viewCount}"></span>次浏览 * <span th:text="${#dates.format(question.timeModified,'yyyy-MM-dd')}"></span></span>
+                            th:text="${question.viewCount}"></span>次浏览 * <span th:text="${#dates.format(question.timeCreate,'yyyy-MM-dd')}"></span></span>
                 </div>
             </div>
             <!--分页标签-->

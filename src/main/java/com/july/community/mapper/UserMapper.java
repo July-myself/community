@@ -1,10 +1,7 @@
 package com.july.community.mapper;
 
 import com.july.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -16,4 +13,10 @@ public interface UserMapper {
 
     @Select("select * from tbl_user where id = #{id}")
     User findById(@Param("id") Integer id);
+
+    @Select("select * from tbl_user where account_id = #{accountId}")
+    User findByAccountId(@Param("accountId") String accountId);
+
+    @Update("update tbl_user set name = #{name},token = #{token},time_modified = #{timeModified},avatar_url = #{avatarUrl}")
+    void update(User user);
 }

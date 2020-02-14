@@ -5,6 +5,7 @@ import com.july.community.dto.GithubUser;
 import com.july.community.mapper.UserMapper;
 import com.july.community.model.User;
 import com.july.community.provider.GithubProvider;
+import com.july.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
@@ -49,10 +52,10 @@ public class AuthorizeController {
         GithubUser githubUser = gitHubProvider.getUser(accessToken);//使用accesstok获得user信息
         //登录成功后的操作
         if(githubUser != null){
-            //存入数据库
             String token = UUID.randomUUID().toString();
-            User user = new User(githubUser.getName(),String.valueOf(githubUser.getId()), token,System.currentTimeMillis(),System.currentTimeMillis(),githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            //新用户插入数据库，已存在用户更新token的信息
+            User user = new User(githubUser.getName(),String.valueOf(githubUser.getId()),token,githubUser.getAvatarUrl());
+            userService.createOrUpdate(user);
             //写cookie,(因存入数据库，无需写入session了)
             response.addCookie(new Cookie("token",token));
             return "redirect:/"; //重定向，跳转到首页(填写的是路径)
@@ -60,5 +63,16 @@ public class AuthorizeController {
             //登录失败，重新登录
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        //清除记录：session,cookie
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

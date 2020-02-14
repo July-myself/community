@@ -15,12 +15,10 @@ public class User{
     public User( ) {
     }
 
-    public User(String name, String accountId, String token, Long timeCreate, Long timeModified, String avatarUrl) {
+    public User( String name, String accountId, String token, String avatarUrl) {
         this.name = name;
         this.accountId = accountId;
         this.token = token;
-        this.timeCreate = timeCreate;
-        this.timeModified = timeModified;
         this.avatarUrl = avatarUrl;
     }
 }

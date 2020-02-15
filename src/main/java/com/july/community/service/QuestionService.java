@@ -2,6 +2,8 @@ package com.july.community.service;
 
 import com.july.community.dto.PaginationDTO;
 import com.july.community.dto.QuestionDTO;
+import com.july.community.exception.CustomizeErrorCode;
+import com.july.community.exception.CustomizeException;
 import com.july.community.mapper.QuestionMapper;
 import com.july.community.mapper.UserMapper;
 import com.july.community.model.Question;
@@ -86,6 +88,9 @@ public class QuestionService {
 
     public QuestionDTO getListById(Integer id) {
         Question question =questionMapper.selectByPrimaryKey(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         //获取user
@@ -113,7 +118,10 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());*/
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExample(question, example);
+            int updated=questionMapper.updateByExample(question, example);
+            if (updated != 1){
+                throw new CustomizeException("更新问题失败。数据库中可能已不存在该问题...");
+            }
         }
     }
 }

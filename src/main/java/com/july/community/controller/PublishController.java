@@ -1,7 +1,6 @@
 package com.july.community.controller;
 
 import com.july.community.dto.QuestionDTO;
-import com.july.community.mapper.QuestionMapper;
 import com.july.community.model.Question;
 import com.july.community.model.User;
 import com.july.community.service.QuestionService;

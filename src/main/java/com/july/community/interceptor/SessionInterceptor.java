@@ -2,6 +2,7 @@ package com.july.community.interceptor;
 
 import com.july.community.mapper.UserMapper;
 import com.july.community.model.User;
+import com.july.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
@@ -25,10 +27,12 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")){
                     String token = cookie.getValue();
-                    User user = userMapper.findByToken(token); //去数据库寻找该token值的用户信息
-                    if(user != null){ //若找到了这个用户信息
+                    UserExample userExample = new UserExample();
+                    userExample.createCriteria().andTokenEqualTo(token);
+                    List<User> users = userMapper.selectByExample(userExample);//去数据库寻找该token值的用户信息
+                    if(users.size() != 0){ //若找到了这个用户信息
                         //写进session，让页面去展示
-                        request.getSession().setAttribute("user",user);
+                        request.getSession().setAttribute("user",users.get(0));
                     }
                     break;
                 }

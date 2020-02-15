@@ -80,6 +80,16 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+        <!--整合mybatis后实现分页功能-->
+      <!--  <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.13</version>
+        </dependency>-->
+
+
+
+
         <!--自动部署
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -113,8 +123,25 @@
                     <url>jdbc:mysql://localhost:3306/community?serverTimezone=UTC</url>
                     <user>root</user>
                     <password>root</password>
-                    <driver>com.mysql.jdbc.Driver</driver>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
                 </configuration>
+            </plugin>
+            <!--Mybatis-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.19</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

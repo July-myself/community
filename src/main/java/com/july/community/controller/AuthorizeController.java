@@ -54,7 +54,11 @@ public class AuthorizeController {
         if(githubUser != null){
             String token = UUID.randomUUID().toString();
             //新用户插入数据库，已存在用户更新token的信息
-            User user = new User(githubUser.getName(),String.valueOf(githubUser.getId()),token,githubUser.getAvatarUrl());
+            User user = new User();
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setToken(token);
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
             //写cookie,(因存入数据库，无需写入session了)
             response.addCookie(new Cookie("token",token));

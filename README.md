@@ -14,6 +14,8 @@
 
 [Thymeleaf](https://www.thymeleaf.org/doc/tutprials/3.0/usingthymeleaf.html#setting-attribute-values)
 
+[Mybatis Generator官方文档](https://mybatis.org/generator/)
+
 ## 工具
 [Git工具](https://git-scm.com/download)
 
@@ -39,8 +41,16 @@ create table tbl_user
 );
 
 ```
-
+执行数据库脚本
 ```bash
 mvn flyway:migrate
+```
+执行mybatis配置
+```bash
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
+修改自增起始值
+```sql
+alter table tbl_question auto_increment = 12;
 ```
 

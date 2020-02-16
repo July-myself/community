@@ -4,6 +4,7 @@ import com.july.community.dto.PaginationDTO;
 import com.july.community.dto.QuestionDTO;
 import com.july.community.exception.CustomizeErrorCode;
 import com.july.community.exception.CustomizeException;
+import com.july.community.mapper.QuestionExtMapper;
 import com.july.community.mapper.QuestionMapper;
 import com.july.community.mapper.UserMapper;
 import com.july.community.model.Question;
@@ -25,6 +26,9 @@ public class QuestionService {
     
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO getList(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -123,5 +127,12 @@ public class QuestionService {
                 throw new CustomizeException("更新问题失败。数据库中可能已不存在该问题...");
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question record = new Question();
+        record.setId(id);
+        record.setViewCount(1);
+        questionExtMapper.incView(record);
     }
 }

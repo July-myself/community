@@ -2,37 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${question.title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/community.js" type="application/javascript"></script>
+
 </head>
 <body>
 <!--导航条-->
 <div th:insert="navigation :: nav"></div>
-
 <!--问题列表-->
 <div class="container-fluid main profile">
     <div class="row">
         <!--左边填写内容-->
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h4><span th:text="${question.title}"></span></h4>
             <!-- 标签和发起人等信息 -->
             <span class="text-tag"><span th:text="${question.tag}"></span></span>
-            <span class="text-desc">作者：<span th:text="${question.user.name}"></span> | 评论数：<span th:text="${question.commentCount}"></span> * 阅读数：<span
-                    th:text="${question.viewCount}"></span> | 最近更新时间： <span th:text="${#dates.format(question.timeModified,'yyyy-MM-dd')}"></span></span>
+            <span class="text-desc">作者：<span th:text="${question.user.name}"></span> | 评论数：<span
+                    th:text="${question.commentCount}"></span> * 阅读数：<span
+                    th:text="${question.viewCount}"></span> | 最近更新时间： <span
+                    th:text="${#dates.format(question.timeModified,'yyyy-MM-dd')}"></span></span>
             <hr>
             <!--正文部分-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <!-- 相关操作 -->
-            <a class="operation" th:href="@{'/publish/' + ${question.id}}" th:if="${session.user != null && session.user.id == question.creator}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>
-
+            <a class="operation" th:href="@{'/publish/' + ${question.id}}"
+               th:if="${session.user != null && session.user.id == question.creator}"><span
+                    class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--评论部分-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+                <!-- 评论人 -->
+                <div class="media-body">
+                    <div class="media">
+                        <!-- 头像部分 -->
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
+                            </a>
+                        </div>
+                        <!--用户名部分-->
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <span th:text="${question.user.name}"></span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <!--输入框-->
+                <input type="hidden" id="question_id" th:value="${question.id}">
+                <textarea id="comment_content" class="form-control comment" rows="6"></textarea>
+                <button type="button" class="btn btn-success btn-comment" onclick="postComment(this)">回复</button>
+            </div>
         </div>
+
         <!--右边作者信息-->
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group section">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4>发起人</h4>
@@ -44,8 +74,8 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h5 class="media-heading" >
-                                    <span  th:text="${question.user.name}"></span>
+                                <h5 class="media-heading">
+                                    <span th:text="${question.user.name}"></span>
                                 </h5>
                             </div>
                         </div>
@@ -59,7 +89,9 @@
 
         </div>
     </div>
+
 </div>
+
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 package com.july.community.model;
 
 public class Question {
-    private Integer id;
+    private Long id;
 
     private String title;
 
@@ -9,7 +9,7 @@ public class Question {
 
     private Long timeModified;
 
-    private Integer creator;
+    private Long creator;
 
     private Integer commentCount;
 
@@ -21,7 +21,7 @@ public class Question {
 
     private String description;
 
-    public Question(Integer id, String title, Long timeCreate, Long timeModified, Integer creator, Integer commentCount, Integer viewCount, Integer likeCount, String tag) {
+    public Question(Long id, String title, Long timeCreate, Long timeModified, Long creator, Integer commentCount, Integer viewCount, Integer likeCount, String tag) {
         this.id = id;
         this.title = title;
         this.timeCreate = timeCreate;
@@ -33,7 +33,7 @@ public class Question {
         this.tag = tag;
     }
 
-    public Question(Integer id, String title, Long timeCreate, Long timeModified, Integer creator, Integer commentCount, Integer viewCount, Integer likeCount, String tag, String description) {
+    public Question(Long id, String title, Long timeCreate, Long timeModified, Long creator, Integer commentCount, Integer viewCount, Integer likeCount, String tag, String description) {
         this.id = id;
         this.title = title;
         this.timeCreate = timeCreate;
@@ -50,11 +50,11 @@ public class Question {
         super();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,11 +82,11 @@ public class Question {
         this.timeModified = timeModified;
     }
 
-    public Integer getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(Integer creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 

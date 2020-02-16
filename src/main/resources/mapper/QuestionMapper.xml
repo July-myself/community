@@ -3,11 +3,11 @@
 <mapper namespace="com.july.community.mapper.QuestionMapper">
   <resultMap id="BaseResultMap" type="com.july.community.model.Question">
     <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="time_create" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="time_modified" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="creator" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="creator" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="comment_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="view_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -16,11 +16,11 @@
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.july.community.model.Question">
     <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="time_create" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="time_modified" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="creator" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="creator" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="comment_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="view_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -123,17 +123,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from tbl_question
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tbl_question
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.july.community.model.QuestionExample">
     delete from tbl_question
@@ -146,8 +146,8 @@
       time_modified, creator, comment_count, 
       view_count, like_count, tag, 
       description)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{timeCreate,jdbcType=BIGINT}, 
-      #{timeModified,jdbcType=BIGINT}, #{creator,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{timeCreate,jdbcType=BIGINT}, 
+      #{timeModified,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{commentCount,jdbcType=INTEGER}, 
       #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
       #{description,jdbcType=LONGVARCHAR})
   </insert>
@@ -187,7 +187,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -199,7 +199,7 @@
         #{timeModified,jdbcType=BIGINT},
       </if>
       <if test="creator != null">
-        #{creator,jdbcType=INTEGER},
+        #{creator,jdbcType=BIGINT},
       </if>
       <if test="commentCount != null">
         #{commentCount,jdbcType=INTEGER},
@@ -228,7 +228,7 @@
     update tbl_question
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -240,7 +240,7 @@
         time_modified = #{record.timeModified,jdbcType=BIGINT},
       </if>
       <if test="record.creator != null">
-        creator = #{record.creator,jdbcType=INTEGER},
+        creator = #{record.creator,jdbcType=BIGINT},
       </if>
       <if test="record.commentCount != null">
         comment_count = #{record.commentCount,jdbcType=INTEGER},
@@ -264,11 +264,11 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update tbl_question
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       time_create = #{record.timeCreate,jdbcType=BIGINT},
       time_modified = #{record.timeModified,jdbcType=BIGINT},
-      creator = #{record.creator,jdbcType=INTEGER},
+      creator = #{record.creator,jdbcType=BIGINT},
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       view_count = #{record.viewCount,jdbcType=INTEGER},
       like_count = #{record.likeCount,jdbcType=INTEGER},
@@ -280,11 +280,11 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update tbl_question
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       time_create = #{record.timeCreate,jdbcType=BIGINT},
       time_modified = #{record.timeModified,jdbcType=BIGINT},
-      creator = #{record.creator,jdbcType=INTEGER},
+      creator = #{record.creator,jdbcType=BIGINT},
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       view_count = #{record.viewCount,jdbcType=INTEGER},
       like_count = #{record.likeCount,jdbcType=INTEGER},
@@ -306,7 +306,7 @@
         time_modified = #{timeModified,jdbcType=BIGINT},
       </if>
       <if test="creator != null">
-        creator = #{creator,jdbcType=INTEGER},
+        creator = #{creator,jdbcType=BIGINT},
       </if>
       <if test="commentCount != null">
         comment_count = #{commentCount,jdbcType=INTEGER},
@@ -324,32 +324,32 @@
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.july.community.model.Question">
     update tbl_question
     set title = #{title,jdbcType=VARCHAR},
       time_create = #{timeCreate,jdbcType=BIGINT},
       time_modified = #{timeModified,jdbcType=BIGINT},
-      creator = #{creator,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=BIGINT},
       comment_count = #{commentCount,jdbcType=INTEGER},
       view_count = #{viewCount,jdbcType=INTEGER},
       like_count = #{likeCount,jdbcType=INTEGER},
       tag = #{tag,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.july.community.model.Question">
     update tbl_question
     set title = #{title,jdbcType=VARCHAR},
       time_create = #{timeCreate,jdbcType=BIGINT},
       time_modified = #{timeModified,jdbcType=BIGINT},
-      creator = #{creator,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=BIGINT},
       comment_count = #{commentCount,jdbcType=INTEGER},
       view_count = #{viewCount,jdbcType=INTEGER},
       like_count = #{likeCount,jdbcType=INTEGER},
       tag = #{tag,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.july.community.model.QuestionExample" resultMap="ResultMapWithBLOBs">
     select

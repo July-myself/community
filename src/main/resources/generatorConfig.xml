@@ -67,6 +67,7 @@
         </javaClientGenerator>
 
         <table tableName="tbl_user" domainObjectName="User" ></table>
-        <table tableName="tbl_question" domainObjectName="Question" ></table>
+        <table tableName="tbl_question" domainObjectName="Question"></table>
+        <table tableName="tbl_comment" domainObjectName="Comment"></table>
     </context>
 </generatorConfiguration>

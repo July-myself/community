@@ -1,7 +1,7 @@
 package com.july.community.model;
 
 public class User {
-    private Integer id;
+    private Long id;
 
     private String accountId;
 
@@ -17,7 +17,7 @@ public class User {
 
     private String avatarUrl;
 
-    public User(Integer id, String accountId, String name, String token, Long timeCreate, Long timeModified, String bio, String avatarUrl) {
+    public User(Long id, String accountId, String name, String token, Long timeCreate, Long timeModified, String bio, String avatarUrl) {
         this.id = id;
         this.accountId = accountId;
         this.name = name;
@@ -32,11 +32,11 @@ public class User {
         super();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

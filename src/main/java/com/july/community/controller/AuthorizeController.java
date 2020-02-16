@@ -8,6 +8,7 @@ import com.july.community.provider.GithubProvider;
 import com.july.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ import java.util.UUID;
  */
 @Controller
 public class AuthorizeController {
-    
+
     @Autowired
     private GithubProvider gitHubProvider;
 

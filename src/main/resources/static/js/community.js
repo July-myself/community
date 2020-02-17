@@ -1,8 +1,29 @@
-function postComment() {
-    //获取评论的questionId
-    var questionId = $("#question_id").val();
-    //获取评论内容
-    var content = $("#comment_content").val();
+/**
+ * 实现评论的功能
+ */
+function comment(e) {
+    var type = e.getAttribute("data-type");//获取回复类型
+    //根据回复类型的不同获取父id
+    if (type == 1){
+        //问题
+        var parentId = $("#question_id").val();//获取questionId
+        var content = $("#comment_content").val();//获取问题评论的内容
+    }else if (type == 2){
+        //子评论
+        var parentId = e.getAttribute("data-id"); //获取父评论的id
+        var content = $("#sub_commit").val();//获取子评论的内容
+    }
+    postComment(parentId,type,content);
+
+}
+
+/**
+ * 发出post请求
+ * @param parentId 评论父Id
+ * @param type 评论父类型
+ * @param content 评论内容
+ */
+function postComment(parentId,type,content) {
     //添加非空判断
     if (!content){
         alert("回复内容不能为空");
@@ -15,9 +36,9 @@ function postComment() {
         contentType:"application/json",
         dataType:"json",
         data:JSON.stringify({
-            "parentId":questionId,
+            "parentId":parentId,
             "content":content,
-            "type":1
+            "type":type
         }),
         success:function (response) {
             if (response.code == 200){
@@ -42,3 +63,48 @@ function postComment() {
     });
 
 }
+
+
+
+/**
+ * 点击 展开/折叠二级评论
+ */
+function collapseComments(e) {
+    var id = e.getAttribute("data-id"); //获取点击评论的id
+    var comments = $("#comment-"+id);//获取点击到的评论的子回复部分div
+    var isCollapse = $("#comment-"+id).hasClass("in")//获取样式，以判断展开状态
+
+    if (isCollapse){
+        comments.removeClass("in");//移除样式，使其折叠
+        e.classList.remove("active");
+    }else{
+        //需要请求后台数据，然后再展开
+        $.getJSON("/comment/"+id,function (subComments) {
+            //追加标签以显示子评论数据
+            var commentBody = $("comment-body-"+id);
+            var items = [];
+
+            $("<div/>",{
+                "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments",
+                "id":"comment-"+id,
+                html:items.join("")
+            }).appendTo(commentBody);
+
+            $.each(subComments.data,function (comment) {
+                var c = $("<div/>",{
+                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+                    html:comment.content
+                });
+                items.push(c);
+
+            });
+
+            $()
+
+            comments.addClass("in"); //添加css样式，使其展开
+            e.classList.add("active");
+        })
+
+    }
+}
+

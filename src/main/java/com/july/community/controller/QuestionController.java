@@ -2,6 +2,7 @@ package com.july.community.controller;
 
 import com.july.community.dto.CommentDTO;
 import com.july.community.dto.QuestionDTO;
+import com.july.community.enums.CommentTypeEnum;
 import com.july.community.service.CommentService;
 import com.july.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class QuestionController {
         //获取问题列表
         QuestionDTO questionDTO =  questionService.getListById(id);
         //获取问题的评论
-        List<CommentDTO> commentList = commentService.getListByQuestionId(id);
+        List<CommentDTO> commentList = commentService.getListByParentId(id, CommentTypeEnum.QUESTION);
         //添加浏览数
         questionService.incView(id);
 

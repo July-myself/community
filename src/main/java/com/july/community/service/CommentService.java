@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,12 +67,12 @@ public class CommentService {
 
     }
 
-    public List<CommentDTO> getListByQuestionId(Long questionId) {
+    public List<CommentDTO> getListByParentId(Long parentId, CommentTypeEnum type) {
         List<CommentDTO> commentDTOList = new ArrayList<>();
         //查评论信息
         CommentExample commentExample = new CommentExample();
-        commentExample.createCriteria().andParentIdEqualTo(questionId)
-                                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        commentExample.createCriteria().andParentIdEqualTo(parentId)
+                                .andTypeEqualTo(type.getType());
         commentExample.setOrderByClause("time_Modified desc");
         List<Comment> commentList = commentMapper.selectByExample(commentExample);
         if (commentList.size()==0){

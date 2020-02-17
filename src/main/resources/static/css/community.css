@@ -59,6 +59,16 @@ body{
     border-bottom: 1px solid #eeeeee;
     padding-bottom: 5px;
 }
+.sub-comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+}
+.sub-comments .btn{
+    margin: 10px 0;
+}
 .comment-hr{
     margin-top: 0;
 }
@@ -73,6 +83,10 @@ body{
     font-size: 15px;
     cursor: pointer;
 }
+.comment-operate .active{
+    color: #46b8da;
+}
 .comment-operate .icon:hover{
     color: #499ef3;
 }
+

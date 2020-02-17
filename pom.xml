@@ -80,13 +80,12 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
-        <!--整合mybatis后实现分页功能-->
-      <!--  <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.13</version>
-        </dependency>-->
-
+        <!--可用来对String进行一些校验，如做非空判断-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
 
 
 

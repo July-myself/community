@@ -1,16 +1,24 @@
 package com.july.community.service;
 
+import com.july.community.dto.CommentDTO;
 import com.july.community.enums.CommentTypeEnum;
 import com.july.community.exception.CustomizeErrorCode;
 import com.july.community.exception.CustomizeException;
 import com.july.community.mapper.CommentMapper;
 import com.july.community.mapper.QuestionExtMapper;
 import com.july.community.mapper.QuestionMapper;
-import com.july.community.model.Comment;
-import com.july.community.model.Question;
+import com.july.community.mapper.UserMapper;
+import com.july.community.model.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,6 +31,9 @@ public class CommentService {
 
     @Autowired
     private QuestionExtMapper questionExtMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public void insert(Comment comment) {
         //判断该评论的父存在
@@ -55,5 +66,44 @@ public class CommentService {
         }
         commentMapper.insert(comment);
 
+    }
+
+    public List<CommentDTO> getListByQuestionId(Long questionId) {
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        //查评论信息
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria().andParentIdEqualTo(questionId)
+                                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        commentExample.setOrderByClause("time_Modified desc");
+        List<Comment> commentList = commentMapper.selectByExample(commentExample);
+        if (commentList.size()==0){
+            //没有评论
+            return new ArrayList<>();
+        }
+        //获得所有去重的评论人id(可以去除重复的数据)
+        List<Long> commentatorIds = commentList.stream().map(comment -> comment.getCommentator()).collect(Collectors.toList());
+        //查询评论人的信息
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andIdIn(commentatorIds);
+        List<User> userList = userMapper.selectByExample(userExample);
+        //将查询到的userList转换成map，以减少接下来循环的层数，减小时间复杂度
+        Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+        //转换comment为commentDTO
+        List<CommentDTO> commentDTOs = commentList.stream().map(comment -> {
+            CommentDTO commentDTO = new CommentDTO();
+            BeanUtils.copyProperties(comment,commentDTO);
+            commentDTO.setUser(userMap.get(comment.getCommentator()));
+            return commentDTO;
+        }).collect(Collectors.toList());
+        return commentDTOs;
+
+        /*//原来的传统方法
+        for (Comment comment : commentList) {
+            CommentDTO commentDTO = new CommentDTO();
+            User user = userMapper.selectByPrimaryKey(comment.getCommentator());
+            BeanUtils.copyProperties(comment,commentDTO);
+            commentDTO.setUser(user);
+            commentDTOList.add(commentDTO);
+        }*/
     }
 }

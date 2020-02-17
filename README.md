@@ -55,3 +55,5 @@ mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 alter table tbl_question auto_increment = 12;
 ```
 
+## 备注
+手动改了头像的访问地址：https://profile.csdnimg.cn/D/1/6/3_weixin_46124214

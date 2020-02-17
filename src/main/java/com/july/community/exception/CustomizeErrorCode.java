@@ -7,7 +7,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     UPDATE_FAIL_QUESTION_NUT_FOUND(2002,"更新问题失败。数据库中可能已不存在该问题..."),
     TARGET_PARAM_NOT_FOUND(2003,"未选中任何问题或评论进行回复"),
     TYPE_PARAM_WRONG(2004,"评论类型错误或不存在"),
-    COMMENT_NOT_FOUND(2005,"你回复的评论不存在" );
+    COMMENT_NOT_FOUND(2005,"你回复的评论不存在" ),
+    COMMENT_CONTENT_NULL(2006,"回复内容不能为空");
 
     private Integer code;
     private String message;

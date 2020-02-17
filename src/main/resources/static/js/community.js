@@ -3,6 +3,11 @@ function postComment() {
     var questionId = $("#question_id").val();
     //获取评论内容
     var content = $("#comment_content").val();
+    //添加非空判断
+    if (!content){
+        alert("回复内容不能为空");
+        return;
+    }
     //发出POST请求
     $.ajax({
         type:"POST",
@@ -15,9 +20,9 @@ function postComment() {
             "type":1
         }),
         success:function (response) {
-            debugger;
             if (response.code == 200){
-                $("#comment_section").hide();
+                //回复成功后刷新页面以显示内容
+                window.location.reload();
             }else {
                 if(response.code == 3001){
                     //登录异常

@@ -3,8 +3,6 @@ function postComment() {
     var questionId = $("#question_id").val();
     //获取评论内容
     var content = $("#comment_content").val();
-    console.log(questionId,content);
-    console.log("准备");
     //发出POST请求
     $.ajax({
         type:"POST",
@@ -16,17 +14,26 @@ function postComment() {
             "content":content,
             "type":1
         }),
-        success:function (response,data) {
-            console.log(data);
+        success:function (response) {
+            debugger;
             if (response.code == 200){
                 $("#comment_section").hide();
             }else {
-                alert(response.message);
+                if(response.code == 3001){
+                    //登录异常
+                    var isAccepted = confirm(response.message);
+                    if (isAccepted){
+                        window.open("https://github.com/login/oauth/authorize?client_id=728bc9dfda3dc246ba09&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                        //实现不刷新页面的登录
+                        window.localStorage.setItem("closable","true");
+                    }
+
+                }else {
+                    alert(response.message);
+                }
             }
-            console.log(response);
         }
 
     });
-    console.log("结束");
 
 }

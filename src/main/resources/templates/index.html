@@ -9,6 +9,16 @@
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/community.css">
 </head>
+<script type="application/javascript">
+    //实现不刷新页面的登录
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if (closable=="true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 <!--导航条-->
 <div th:insert="navigation :: nav"></div>

@@ -19,16 +19,6 @@ body{
     padding-top: 17px;
 }
 
-.text-tag{
-    display: inline-block;
-    padding: 5px;
-    height: 20px;
-    line-height: 20px;
-    background-color: #f2f2f2;
-    font-size: 12px;
-    color: #999;
-}
-
 .text-desc{
     font-size: 12px;
     font-weight: normal;
@@ -38,7 +28,16 @@ body{
 .profile .section{
     margin-top: 25px;
 }
-
+.question-tag{
+    margin-right: 5px;
+}
+.question-related{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
 .operation{
     color: #999999;
     font-size: 13px;

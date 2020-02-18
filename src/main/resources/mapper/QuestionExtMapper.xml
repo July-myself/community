@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.july.community.mapper.QuestionExtMapper">
-  <resultMap id="BaseResultMap" type="com.july.community.model.Question">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="time_create" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="time_modified" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="creator" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="comment_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="view_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="tag" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.july.community.model.Question">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="time_create" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="time_modified" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="creator" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="comment_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="view_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="tag" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
-    </constructor>
-  </resultMap>
-  <update id="incView" parameterType="com.july.community.model.Question">
+    <resultMap id="BaseResultMap" type="com.july.community.model.Question">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="time_create" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="time_modified" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="creator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="comment_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="view_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="tag" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.july.community.model.Question">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="time_create" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="time_modified" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="creator" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="comment_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="view_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="tag" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR"/>
+        </constructor>
+    </resultMap>
+    <update id="incView" parameterType="com.july.community.model.Question">
         update tbl_question set
         view_count = view_count + #{viewCount,jdbcType=INTEGER}
         where id = #{id}
     </update>
 
-  <update id="incComment" parameterType="com.july.community.model.Question">
+    <update id="incComment" parameterType="com.july.community.model.Question">
         update tbl_question set
         comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
         where id = #{id}
     </update>
+
+    <select id="selectRelated" parameterType="com.july.community.model.Question" resultMap="BaseResultMap">
+        select * from tbl_question where id != #{id} and tag regexp #{tag}
+  </select>
 </mapper>

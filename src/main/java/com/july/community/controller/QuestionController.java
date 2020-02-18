@@ -30,11 +30,14 @@ public class QuestionController {
         QuestionDTO questionDTO =  questionService.getListById(id);
         //获取问题的评论
         List<CommentDTO> commentList = commentService.getListByParentId(id, CommentTypeEnum.QUESTION);
+        //获取相关问题
+        List<QuestionDTO> relatedQuestionDTOs = questionService.getRelated(questionDTO);
         //添加浏览数
         questionService.incView(id);
 
         model.addAttribute("question",questionDTO);
         model.addAttribute("commentList",commentList);
+        model.addAttribute("relatedQuestionList",relatedQuestionDTOs);
         return "question";
     }
 }

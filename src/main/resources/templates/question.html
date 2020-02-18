@@ -24,8 +24,7 @@
             <!--问题信息-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3><span th:text="${question.title}"></span></h3>
-                <!-- 标签和发起人等信息 -->
-                <span class="text-tag"><span th:text="${question.tag}"></span></span>
+                <!-- 发起人等信息 -->
                 <span class="text-desc">作者：<span th:text="${question.user.name}"></span> | 评论数：<span
                         th:text="${question.commentCount}"></span> * 阅读数：<span
                         th:text="${question.viewCount}"></span> | 最近更新时间： <span
@@ -34,12 +33,25 @@
                 <!--正文部分-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!--展示标签-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <span class="label label-info question-tag" th:each=" tag : ${question.tag.split(',')}">
+                        <span class="glyphicon glyphicon-tag"></span>
+                        <span class="label label-info" th:text="${tag}"></span>
+                    </span>
+                </div>
+
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!-- 相关操作 -->
-                <a class="operation" th:href="@{'/publish/' + ${question.id}}"
-                   th:if="${session.user != null && session.user.id == question.creator}"><span
-                        class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <a class="operation" th:href="@{'/publish/' + ${question.id}}"
+                       th:if="${session.user != null && session.user.id == question.creator}"><span
+                            class="glyphicon glyphicon-edit" aria-hidden="true">编辑</span></a>
+                </div>
+
 
             </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             <!--评论列表展示部分-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -135,8 +147,9 @@
             </div>
         </div>
 
-        <!--右边作者信息-->
+        <!--右边部分-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <!--作者信息部分-->
             <div class="list-group section">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4>发起人</h4>
@@ -156,8 +169,21 @@
                     </div>
                 </div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- 推荐内容：软广 -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4>更多优质内容</h4>
+                    <img src="/image/dscnText.png" class="img-thumbnail" width="100%"/>
+                </div>
+
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!--相关问题部分-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4>相关问题</h4>
+                    <ul class="question-related">
+                        <li th:each="relatedQuestion : ${relatedQuestionList}">
+                            <a th:href="@{'/question/' + ${relatedQuestion.id}}" th:text="${relatedQuestion.title}"></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 

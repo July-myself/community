@@ -83,6 +83,13 @@ body{
     font-size: 15px;
     cursor: pointer;
 }
+.comment-operate .comment-icon{
+    font-size: 15px;
+    cursor: pointer;
+}
+.comment-operate .comment-icon:hover{
+    color: #499ef3;
+}
 .comment-operate .active{
     color: #46b8da;
 }

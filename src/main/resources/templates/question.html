@@ -8,7 +8,9 @@
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/moment.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+
 
 </head>
 <body>
@@ -59,8 +61,11 @@
                             <!--对评论的操作-->
                             <div class="comment-operate">
                                 <span class="glyphicon glyphicon-thumbs-up icon"></span> <!--点赞-->
-                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}"
-                                      onclick="collapseComments(this)"></span> <!--评论-->
+                                <span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comment-icon">
+                                    <span class="glyphicon glyphicon-comment"></span> <!--评论-->
+                                    <span th:text="${comment.commentCount}"></span><!--评论的回复数-->
+                                </span>
+
                                 <span class="pull-right"
                                       th:text="${#dates.format(comment.timeModified,'yyyy-MM-dd HH:mm')}"></span></span>
                             </div>
@@ -72,18 +77,14 @@
                                      th:each="comment : ${commentList}">
                                     <div class="media">
                                         <div class="media-left">
-                                            <a href="#">
                                                 <img th:src="${comment.user.avatarUrl}"
                                                      class="media-object img-rounded">
-                                            </a>
                                         </div>
                                         <div class="media-body">
-                                            <h5 class="media-heading">
-                                                <span th:text="${comment.user.name}"></span>
+                                            <h5 class="media-heading" th:text="${comment.user.name}">
                                             </h5>
                                             &lt;!&ndash;评论内容&ndash;&gt;
                                             <div th:text="${comment.content}"></div>
-                                            &lt;!&ndash;对评论的操作&ndash;&gt;
                                             <div class="comment-operate">
                                                 <span class="pull-right"
                                                       th:text="${#dates.format(comment.timeModified,'yyyy-MM-dd HH:mm')}"></span></span>
@@ -93,8 +94,11 @@
                                 </div>-->
                                 <!--子评论输入框-->
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <input type="text" class="form-control" placeholder="评论一下..." id="sub_commit" required>
-                                    <button type="button" class="btn btn-success pull-right" th:data-type="2" th:data-id="${comment.id}" onclick="comment(this)">评论</button>
+                                    <input type="text" class="form-control" placeholder="评论一下..." id="sub_commit"
+                                           required>
+                                    <button type="button" class="btn btn-success pull-right" th:data-type="2"
+                                            th:data-id="${comment.id}" onclick="comment(this)">评论
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -112,13 +116,13 @@
                         <!-- 头像部分 -->
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
+                                <img class="media-object img-rounded" th:src="${session.user.avatarUrl}">
                             </a>
                         </div>
                         <!--用户名部分-->
                         <div class="media-body">
                             <h5 class="media-heading">
-                                <span th:text="${question.user.name}"></span>
+                                <span th:text="${session.user.name}"></span>
                             </h5>
                         </div>
                     </div>
@@ -126,7 +130,8 @@
                 <!--输入框-->
                 <input type="hidden" id="question_id" th:value="${question.id}">
                 <textarea id="comment_content" class="form-control comment" rows="6" required></textarea>
-                <button type="button" class="btn btn-success btn-comment" th:data-type="1" onclick="comment(this)">回复</button>
+                <button type="button" class="btn btn-success btn-comment" th:data-type="1" onclick="comment(this)">回复
+                </button>
             </div>
         </div>
 

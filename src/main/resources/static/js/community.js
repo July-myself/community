@@ -75,35 +75,58 @@ function collapseComments(e) {
     var isCollapse = $("#comment-"+id).hasClass("in")//获取样式，以判断展开状态
 
     if (isCollapse){
+
         comments.removeClass("in");//移除样式，使其折叠
         e.classList.remove("active");
     }else{
-        //需要请求后台数据，然后再展开
-        $.getJSON("/comment/"+id,function (subComments) {
-            //追加标签以显示子评论数据
-            var commentBody = $("comment-body-"+id);
-            var items = [];
+        var subCommentContainer = $("#comment-"+id);
 
-            $("<div/>",{
-                "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments",
-                "id":"comment-"+id,
-                html:items.join("")
-            }).appendTo(commentBody);
+        if (subCommentContainer.children().length == 1){
+            //需要请求后台数据，然后再展开
+            $.getJSON("/comment/"+id,function (subComments) {
+                //追加标签以显示子评论数据
 
-            $.each(subComments.data,function (comment) {
-                var c = $("<div/>",{
-                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-                    html:comment.content
+                $.each(subComments.data.reverse(),function (index,comment) {
+                    //子评论动态构成
+                    var commentElement = $("<div/>",{
+                        "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments"
+                    });
+                    var mediaElement = $("<div/>",{
+                        "class":"media"
+                    });
+                    var mediaLeftElement = $("<div/>",{
+                        "class":"media-left"
+                    }).append($("<img/>",{
+                        "class":"media-object img-rounded",
+                        "src":comment.user.avatarUrl
+                    }));
+                    var mediaBodyElement = $("<div/>",{
+                        "class":"media-body"
+                    }).append($("<h5/>",{
+                        "class":"media-heading",
+                        "text":comment.user.name
+                    })).append($("<div/>",{
+                        "text":comment.content
+                    })).append($("<div/>",{
+                        "class":"comment-operate"
+                    }).append($("<span/>",{
+                        "class":"pull-right",
+                        "text":moment(comment.timeModified).format('YYYY-MM-DD HH:mm')
+                    })));
+
+                    commentElement.append(mediaElement);
+                    mediaElement.append(mediaLeftElement);
+                    mediaElement.append(mediaBodyElement);
+                    subCommentContainer.prepend(commentElement);
+
                 });
-                items.push(c);
-
             });
 
-            $()
+            }
 
             comments.addClass("in"); //添加css样式，使其展开
             e.classList.add("active");
-        })
+
 
     }
 }

@@ -4,10 +4,7 @@ import com.july.community.dto.CommentDTO;
 import com.july.community.enums.CommentTypeEnum;
 import com.july.community.exception.CustomizeErrorCode;
 import com.july.community.exception.CustomizeException;
-import com.july.community.mapper.CommentMapper;
-import com.july.community.mapper.QuestionExtMapper;
-import com.july.community.mapper.QuestionMapper;
-import com.july.community.mapper.UserMapper;
+import com.july.community.mapper.*;
 import com.july.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,9 @@ import java.util.stream.Collectors;
 public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private CommentExtMapper commentExtMapper;
 
     @Autowired
     private QuestionMapper questionMapper;
@@ -52,6 +52,9 @@ public class CommentService {
             if (parentComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            //给评论添加回复数
+            parentComment.setCommentCount(1);
+            commentExtMapper.incComment(parentComment);
         }else{
             //问题的回复
             //查询该问题是否存在
@@ -59,7 +62,7 @@ public class CommentService {
             if (parentQuestion == null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            //给问题添加评论
+            //给问题添加评论数
             parentQuestion.setCommentCount(1);
             questionExtMapper.incComment(parentQuestion);
         }

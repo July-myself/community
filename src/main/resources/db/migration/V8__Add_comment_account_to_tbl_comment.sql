@@ -1,0 +1,1 @@
+ALTER TABLE tbl_comment ADD comment_account int default 0;

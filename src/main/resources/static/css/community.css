@@ -5,6 +5,19 @@ body{
     margin: 30px;
     background-color: white;
 }
+.select-tags{
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.select-tags .label-info{
+    display: inline-block;
+    margin: 5px;
+    white-space: normal;
+}
+.select-tags .label-info{
+    margin-right: 10px;
+}
 
 .btn-publish{
     float: right;

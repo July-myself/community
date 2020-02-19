@@ -131,3 +131,26 @@ function collapseComments(e) {
     }
 }
 
+/**
+ * 选取标签，标签追加写入输入框中
+ * @param s 标签名
+ */
+function selectTag(e) {
+    var tag = e.getAttribute("data-tag");
+    var previous = $("#tag").val(); //获得原标签输入框中的内容
+    if (previous.indexOf(tag) == -1){
+        //不存在才添加
+        if (previous){
+            $("#tag").val(previous + ',' + tag); //追加
+        }else{
+            $("#tag").val(tag);
+        }
+    }
+}
+
+/**
+ * 标签库的展示与隐藏
+ */
+function showSelectTags() {
+    $("#select-tags").show();
+}

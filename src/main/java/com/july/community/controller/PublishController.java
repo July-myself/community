@@ -1,9 +1,11 @@
 package com.july.community.controller;
 
+import com.july.community.cache.TagCache;
 import com.july.community.dto.QuestionDTO;
 import com.july.community.model.Question;
 import com.july.community.model.User;
 import com.july.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,8 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tagList", TagCache.getTagList());
         return "publish";
     }
 
@@ -38,6 +41,15 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        model.addAttribute("tagList", TagCache.getTagList());
+
+        //校验输入的标签是否都是预定义的标签
+        String invalid = TagCache.filterInvalid(tag); //过滤，筛选出不是预定义的标签
+        if (StringUtils.isNoneBlank(invalid)){
+            //存在非预定义的标签
+            model.addAttribute("error","存在非预定义的标签："+invalid);
+            return "publish";
+        }
 
         //从session中获取user问题的创建者
         User user = (User) request.getSession().getAttribute("user");
@@ -67,6 +79,8 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());
+
+        model.addAttribute("tagList", TagCache.getTagList());
         return "publish";
     }
 }

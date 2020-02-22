@@ -3,6 +3,7 @@ package com.july.community.interceptor;
 import com.july.community.mapper.UserMapper;
 import com.july.community.model.User;
 import com.july.community.model.UserExample;
+import com.july.community.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +20,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private MessageService messageService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //检验登录状态
@@ -33,6 +37,10 @@ public class SessionInterceptor implements HandlerInterceptor {
                     if(users.size() != 0){ //若找到了这个用户信息
                         //写进session，让页面去展示
                         request.getSession().setAttribute("user",users.get(0));
+                        //获取该用户的未读信息数
+                        Long unreadCount = messageService.unreadCount(users.get(0).getId());
+                        //写入session
+                        request.getSession().setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }

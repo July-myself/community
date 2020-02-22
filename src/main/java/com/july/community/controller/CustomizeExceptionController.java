@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping({"${server.error.path:$*error.path:/error}}"})
+@RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomizeExceptionController implements ErrorController {
 
     @Override
@@ -41,3 +41,4 @@ public class CustomizeExceptionController implements ErrorController {
         }
     }
 }
+

@@ -6,9 +6,14 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.min.css">
+
     <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+
+
 
 </head>
 <body>
@@ -29,11 +34,30 @@
                     <input type="text" id="title" class="form-control " name="title" th:value="${title}"
                            placeholder="问题标题..." required>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" id="question-editor">
                     <label for="title">问题描述:</label>
                     <textarea name="description" id="description" class="form-control" th:text="${description}"
-                              cols="30" rows="10" required></textarea>
+                              cols="30" rows="10" style="display: none;" required></textarea>
                 </div>
+                <!--实现markdown输入-->
+                <script type="text/javascript">
+                    $(function () {
+                        var editor = editormd("question-editor", {
+                            width: "100%",
+                            height: 350,
+                            path: "/js/lib/",
+                            delay: 0,
+                            watch:false,
+                            placeholder:"请输入问题描述，支持Markdown...",
+                            imageUpload:true,
+                            imageFormats:["jpg","jpeg","gif","png","bmp","webp"],
+                            imageUploadURL:"/file/upload",
+                            emoji:true
+                        });
+                    });
+                </script>
+
                 <div class="form-group">
                     <label for="title">添加标签：</label>
                     <input type="text" id="tag" class="form-control" name="tag" th:value="${tag}" autocomplete="off"
@@ -43,7 +67,8 @@
                     <div id="select-tags" class="select-tags">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tagList}" th:class="${selectCategoryStat.first ? 'active':''}">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tagList}"
+                                th:class="${selectCategoryStat.first ? 'active':''}">
                                 <a aria-controls="home" role="tab" data-toggle="tab"
                                    th:href="${'#'+selectCategory.categoryName}"
                                    th:text="${selectCategory.categoryName}"></a>
@@ -52,11 +77,12 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" th:id="${selectCategory.categoryName}"
-                                 th:each="selectCategory,selectCategoryStat : ${tagList}" th:class="${selectCategoryStat.first ? 'tab-pane active':'tab-pane'}">
+                                 th:each="selectCategory,selectCategoryStat : ${tagList}"
+                                 th:class="${selectCategoryStat.first ? 'tab-pane active':'tab-pane'}">
                                 <span>
                                     <span class="label label-info" th:each="selectTag : ${selectCategory.tagList}">
                                         <span class="glyphicon glyphicon-tag" onclick="selectTag(this)"
-                                          th:data-tag="${selectTag}" th:text="${' '+selectTag}"></span>
+                                              th:data-tag="${selectTag}" th:text="${' '+selectTag}"></span>
                                     </span>
                                 </span>
                             </div>

@@ -5,11 +5,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-    <script src="/js/jquery-3.4.1.min.js"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
+
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/moment.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js" type="application/javascript"></script>
+    <script src="/js/lib/prettify.min.js" type="application/javascript"></script>
+
 
 
 </head>
@@ -31,7 +37,18 @@
                         th:text="${#dates.format(question.timeModified,'yyyy-MM-dd')}"></span></span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--正文部分-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+                <!--使用Markdown展示-->
+                <div id="question-view" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                    <textarea style="display: none;" th:text="${question.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        var questionView = editormd.markdownToHTML("question-view",{
+                        })
+                    });
+
+                </script>
+
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--展示标签-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -172,7 +189,7 @@
                 <!-- 推荐内容：软广 -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4>更多优质内容</h4>
-                    <img src="/image/dscnText.png" class="img-thumbnail" width="100%"/>
+                    <img src="/images/dscnText.png" class="img-thumbnail" width="100%"/>
                 </div>
 
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

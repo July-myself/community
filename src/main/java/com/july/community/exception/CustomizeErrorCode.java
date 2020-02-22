@@ -8,7 +8,12 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     TARGET_PARAM_NOT_FOUND(2003,"未选中任何问题或评论进行回复"),
     TYPE_PARAM_WRONG(2004,"评论类型错误或不存在"),
     COMMENT_NOT_FOUND(2005,"你回复的评论不存在" ),
-    COMMENT_CONTENT_NULL(2006,"回复内容不能为空");
+    COMMENT_CONTENT_NULL(2006,"回复内容不能为空"),
+    MESSAGE_NOT_FOUND(2007,"这条信息不存在"),
+    READ_MESSAGE_FAIL(2008,"这条信息不是你的，你无权阅读"),
+    IMAGE_TOO_MAX(2009,"图片太大，无法上传"),
+    IMAGE_UPLOAD_FAIL(2010,"图片上传失败"),
+    FILE_IS_EMPTY(2011,"空文件，上传失败");
 
     private Integer code;
     private String message;

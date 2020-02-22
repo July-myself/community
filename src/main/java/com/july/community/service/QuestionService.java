@@ -62,14 +62,14 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO); //加入要返回的questionDYO列表中
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
 
         return paginationDTO;
     }
 
     public PaginationDTO getList(Long userId, Integer page, Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(userId);
         Integer totalCount = (int) questionMapper.countByExample(example);
@@ -98,7 +98,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO); //加入要返回的questionDYO列表中
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
 
         return paginationDTO;

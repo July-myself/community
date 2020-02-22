@@ -2,6 +2,7 @@ package com.july.community.service;
 
 import com.july.community.dto.PaginationDTO;
 import com.july.community.dto.QuestionDTO;
+import com.july.community.dto.QuestionQueryDTO;
 import com.july.community.model.Question;
 import com.july.community.exception.CustomizeErrorCode;
 import com.july.community.exception.CustomizeException;
@@ -33,10 +34,17 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO getList(Integer page, Integer size) {
+    public PaginationDTO getList(String search,Integer page, Integer size) {
+        if (StringUtils.isNotBlank(search)){
+            String[] condition = StringUtils.split(search," ");
+            search = Arrays.stream(condition).collect(Collectors.joining("|")); //转换成正则
+        }
+
         PaginationDTO paginationDTO = new PaginationDTO();
 
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         paginationDTO.setPagination(totalCount, page, size);
         Integer totalPage = paginationDTO.getTotalPage();
         //限定页码范围
@@ -48,10 +56,9 @@ public class QuestionService {
         }
         //获取question所有对象
         Integer offset = size * (page - 1);
-
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.setOrderByClause("time_modified desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));//该list存从数据库中查到的question对象
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearchWithRowbounds(questionQueryDTO);//该list存从数据库中查到的question对象
         List<QuestionDTO> questionDTOList = new ArrayList<>(); //该list存要返回的questionDTO对象
         //循环questions,获取user
         for (Question question : questions) {

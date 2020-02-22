@@ -87,6 +87,10 @@ public class CommentService {
     }
 
     private void createMessage(Comment comment, Long receiver, String notifierName, String outerTitle, MessageTypeEnum messageType,Long outerid) {
+        //判断接收人与发送人为同一个人时，不发送通知
+        if (receiver == comment.getCommentator()){
+            return;
+        }
         //发出信息通知提醒
         Message message = new Message();
         message.setNotifier(comment.getCommentator());

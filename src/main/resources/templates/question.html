@@ -145,13 +145,13 @@
                         <!-- 头像部分 -->
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object img-rounded" th:src="${session.user.avatarUrl}">
+                                <img class="media-object img-rounded" th:src="${session != null ? session.user.avatarUrl : '/images/defaultAvatar.png'}">
                             </a>
                         </div>
                         <!--用户名部分-->
                         <div class="media-body">
                             <h5 class="media-heading">
-                                <span th:text="${session.user.name}"></span>
+                                <span th:text="${session != null ? session.user.name : '匿名用户'}"></span>
                             </h5>
                         </div>
                     </div>
@@ -209,6 +209,6 @@
 
 </div>
 
-
+<div th:insert="footer :: foot"></div>
 </body>
 </html>

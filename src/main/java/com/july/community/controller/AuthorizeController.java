@@ -6,6 +6,7 @@ import com.july.community.mapper.UserMapper;
 import com.july.community.model.User;
 import com.july.community.provider.GithubProvider;
 import com.july.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.json.GsonBuilderUtils;
@@ -22,6 +23,7 @@ import java.util.UUID;
  * 登录后回调
  */
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -66,6 +68,7 @@ public class AuthorizeController {
             return "redirect:/"; //重定向，跳转到首页(填写的是路径)
         }else{
             //登录失败，重新登录
+            log.error("callback 方法 get github 账户 失败,{0}",githubUser);
             return "redirect:/";
         }
     }
